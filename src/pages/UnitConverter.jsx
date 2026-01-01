@@ -13,26 +13,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Calculator, ArrowRightLeft, Info } from "lucide-react";
 
-// Conversion table - all values relative to grams for weight, ml for volume
-const CONVERSION_TABLE = {
-  // Weight
-  grams: { type: 'weight', toGrams: 1 },
-  kg: { type: 'weight', toGrams: 1000 },
-  oz: { type: 'weight', toGrams: 28.3495 },
-  lb: { type: 'weight', toGrams: 453.592 },
-  
-  // Volume
-  ml: { type: 'volume', toMl: 1 },
-  liter: { type: 'volume', toMl: 1000 },
-  cup: { type: 'volume', toMl: 236.588 },
-  tbsp: { type: 'volume', toMl: 14.7868 },
-  tsp: { type: 'volume', toMl: 4.92892 },
-  'fl oz': { type: 'volume', toMl: 29.5735 },
-  pint: { type: 'volume', toMl: 473.176 },
-  quart: { type: 'volume', toMl: 946.353 },
-  gallon: { type: 'volume', toMl: 3785.41 }
-};
-
 export default function UnitConverter() {
   const [amount, setAmount] = useState(1);
   const [fromUnit, setFromUnit] = useState('cup');
@@ -40,24 +20,13 @@ export default function UnitConverter() {
   const [result, setResult] = useState(null);
   const [conversionTime, setConversionTime] = useState(null);
 
-  const weightUnits = Object.keys(CONVERSION_TABLE).filter(
-    key => CONVERSION_TABLE[key].type === 'weight'
-  );
-  const volumeUnits = Object.keys(CONVERSION_TABLE).filter(
-    key => CONVERSION_TABLE[key].type === 'volume'
-  );
-
   const convert = () => {
     const startTime = performance.now();
 
     const fromData = CONVERSION_TABLE[fromUnit];
     const toData = CONVERSION_TABLE[toUnit];
 
-    // Check if conversion is valid (same type)
-    if (fromData.type !== toData.type) {
-      setResult({ error: "Cannot convert between weight and volume units" });
-      return;
-    }
+    
 
     let converted;
     if (fromData.type === 'weight') {
@@ -133,29 +102,7 @@ export default function UnitConverter() {
                   onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                   className="text-xl h-14"
                 />
-                <Select value={fromUnit} onValueChange={setFromUnit}>
-                  <SelectTrigger className="mt-2 h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <div className="px-2 py-1 text-xs font-semibold text-gray-500">
-                      Volume
-                    </div>
-                    {volumeUnits.map(unit => (
-                      <SelectItem key={unit} value={unit}>
-                        {unit}
-                      </SelectItem>
-                    ))}
-                    <div className="px-2 py-1 text-xs font-semibold text-gray-500 mt-2">
-                      Weight
-                    </div>
-                    {weightUnits.map(unit => (
-                      <SelectItem key={unit} value={unit}>
-                        {unit}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                
               </div>
 
               {/* Swap Button */}
@@ -184,44 +131,10 @@ export default function UnitConverter() {
                     <span className="text-gray-400 text-xl">—</span>
                   )}
                 </div>
-                <Select value={toUnit} onValueChange={setToUnit}>
-                  <SelectTrigger className="mt-2 h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <div className="px-2 py-1 text-xs font-semibold text-gray-500">
-                      Volume
-                    </div>
-                    {volumeUnits.map(unit => (
-                      <SelectItem key={unit} value={unit}>
-                        {unit}
-                      </SelectItem>
-                    ))}
-                    <div className="px-2 py-1 text-xs font-semibold text-gray-500 mt-2">
-                      Weight
-                    </div>
-                    {weightUnits.map(unit => (
-                      <SelectItem key={unit} value={unit}>
-                        {unit}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                
               </div>
             </div>
 
-            {/* Error or Performance */}
-            <div className="mt-6 text-center">
-              {result?.error ? (
-                <div className="text-red-600 bg-red-50 rounded-lg p-3">
-                  <Info className="w-4 h-4 inline mr-2" />
-                  {result.error}
-                </div>
-              ) : conversionTime !== null && (
-                <div className="text-green-600 text-sm">
-                  ✓ Converted in {conversionTime.toFixed(2)}ms (requirement: &lt;2000ms)
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
