@@ -26,7 +26,11 @@ export default function UnitConverter() {
     const fromData = CONVERSION_TABLE[fromUnit];
     const toData = CONVERSION_TABLE[toUnit];
 
-    
+    // Check if conversion is valid (same type)
+    if (fromData.type !== toData.type) {
+      setResult({ error: "Cannot convert between weight and volume units" });
+      return;
+    }
 
     let converted;
     if (fromData.type === 'weight') {
@@ -135,6 +139,18 @@ export default function UnitConverter() {
               </div>
             </div>
 
+            {/* Error or Performance */}
+            <div className="mt-6 text-center">
+              {result?.error ? (
+                <div className="text-red-600 bg-red-50 rounded-lg p-3">
+                  <Info className="w-4 h-4 inline mr-2" />
+                  {result.error}
+                </div>
+              ) : conversionTime !== null && (
+                <div className="text-green-600 text-sm">
+                  ✓ Converted in {conversionTime.toFixed(2)}ms (requirement: &lt;2000ms)
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
