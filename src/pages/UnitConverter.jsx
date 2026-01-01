@@ -106,7 +106,29 @@ export default function UnitConverter() {
                   onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                   className="text-xl h-14"
                 />
-                
+                <Select value={fromUnit} onValueChange={setFromUnit}>
+                  <SelectTrigger className="mt-2 h-12">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <div className="px-2 py-1 text-xs font-semibold text-gray-500">
+                      Volume
+                    </div>
+                    {volumeUnits.map(unit => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                    <div className="px-2 py-1 text-xs font-semibold text-gray-500 mt-2">
+                      Weight
+                    </div>
+                    {weightUnits.map(unit => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Swap Button */}
@@ -135,7 +157,29 @@ export default function UnitConverter() {
                     <span className="text-gray-400 text-xl">—</span>
                   )}
                 </div>
-                
+                <Select value={toUnit} onValueChange={setToUnit}>
+                  <SelectTrigger className="mt-2 h-12">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <div className="px-2 py-1 text-xs font-semibold text-gray-500">
+                      Volume
+                    </div>
+                    {volumeUnits.map(unit => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                    <div className="px-2 py-1 text-xs font-semibold text-gray-500 mt-2">
+                      Weight
+                    </div>
+                    {weightUnits.map(unit => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
