@@ -13,12 +13,39 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Calculator, ArrowRightLeft, Info } from "lucide-react";
 
+// Conversion table - all values relative to grams for weight, ml for volume
+const CONVERSION_TABLE = {
+  // Weight
+  grams: { type: 'weight', toGrams: 1 },
+  kg: { type: 'weight', toGrams: 1000 },
+  oz: { type: 'weight', toGrams: 28.3495 },
+  lb: { type: 'weight', toGrams: 453.592 },
+  
+  // Volume
+  ml: { type: 'volume', toMl: 1 },
+  liter: { type: 'volume', toMl: 1000 },
+  cup: { type: 'volume', toMl: 236.588 },
+  tbsp: { type: 'volume', toMl: 14.7868 },
+  tsp: { type: 'volume', toMl: 4.92892 },
+  'fl oz': { type: 'volume', toMl: 29.5735 },
+  pint: { type: 'volume', toMl: 473.176 },
+  quart: { type: 'volume', toMl: 946.353 },
+  gallon: { type: 'volume', toMl: 3785.41 }
+};
+
 export default function UnitConverter() {
   const [amount, setAmount] = useState(1);
   const [fromUnit, setFromUnit] = useState('cup');
   const [toUnit, setToUnit] = useState('ml');
   const [result, setResult] = useState(null);
   const [conversionTime, setConversionTime] = useState(null);
+
+  const weightUnits = Object.keys(CONVERSION_TABLE).filter(
+    key => CONVERSION_TABLE[key].type === 'weight'
+  );
+  const volumeUnits = Object.keys(CONVERSION_TABLE).filter(
+    key => CONVERSION_TABLE[key].type === 'volume'
+  );
 
   const convert = () => {
     const startTime = performance.now();
