@@ -10,7 +10,8 @@ import {
   LogOut,
   User,
   Menu,
-  X
+  X,
+  Utensils
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,6 +50,7 @@ export default function Layout({ children, currentPageName }) {
   const navItems = [
     { name: "Home", path: createPageUrl("Home"), icon: Home },
     { name: "Dashboard", path: createPageUrl("Dashboard"), icon: ChefHat },
+    { name: "Meals", path: createPageUrl("Meals"), icon: Utensils },
     { name: "Search", path: createPageUrl("Search"), icon: Search },
     { name: "Unit Converter", path: createPageUrl("UnitConverter"), icon: Calculator },
   ];
