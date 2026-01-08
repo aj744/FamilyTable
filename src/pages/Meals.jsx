@@ -63,9 +63,22 @@ export default function Meals() {
     }
   });
 
+  const deleteMealMutation = useMutation({
+    mutationFn: (id) => base44.entities.Meal.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['meals'] });
+    }
+  });
+
   const handleCreateMeal = () => {
     if (newMeal.name.trim()) {
       createMealMutation.mutate(newMeal);
+    }
+  };
+
+  const handleDeleteMeal = (id) => {
+    if (window.confirm("Delete this meal?")) {
+      deleteMealMutation.mutate(id);
     }
   };
 
@@ -194,6 +207,14 @@ export default function Meals() {
                               )}
                             </div>
                           </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDeleteMeal(meal.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 flex-shrink-0"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </CardHeader>
                       <CardContent>
