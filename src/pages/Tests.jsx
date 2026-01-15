@@ -55,6 +55,21 @@ export default function Tests() {
     setLoading({ ...loading, story: false });
   };
 
+  const testCreateMeal = async () => {
+    setLoading({ ...loading, meal: true });
+    try {
+      const result = await base44.entities.Meal.create({
+        name: "Test Meal " + Date.now(),
+        description: "A test meal collection",
+        recipeIds: []
+      });
+      setMealResult({ success: true, data: result });
+    } catch (error) {
+      setMealResult({ success: false, error: error.message });
+    }
+    setLoading({ ...loading, meal: false });
+  };
+
   const ResultDisplay = ({ result }) => {
     if (!result) return null;
     
@@ -120,6 +135,26 @@ export default function Tests() {
               Create Test Story
             </Button>
             <ResultDisplay result={storyResult} />
+          </CardContent>
+        </Card>
+
+        {/* Test Meal Creation */}
+        <Card className="border-amber-100">
+          <CardHeader>
+            <CardTitle>Test Meal Creation</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button
+              onClick={testCreateMeal}
+              disabled={loading.meal}
+              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white"
+            >
+              {loading.meal ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : null}
+              Create Test Meal
+            </Button>
+            <ResultDisplay result={mealResult} />
           </CardContent>
         </Card>
       </div>
