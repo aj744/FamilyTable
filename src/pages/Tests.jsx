@@ -10,6 +10,28 @@ export default function Tests() {
   const [mealResult, setMealResult] = useState(null);
   const [loading, setLoading] = useState({ recipe: false, story: false, meal: false });
 
+  const testCreateRecipe = async () => {
+    setLoading({ ...loading, recipe: true });
+    try {
+      const result = await base44.entities.Recipe.create({
+        title: "Test Recipe " + Date.now(),
+        shortDescription: "A test recipe",
+        fullInstructions: "Step 1: Test\nStep 2: Done",
+        ingredients: [
+          { name: "Test Ingredient", quantity: 1, unit: "cup" }
+        ],
+        categories: ["test"],
+        difficultyLevel: 3,
+        estimatedTime: 30,
+        servings: 4
+      });
+      setRecipeResult({ success: true, data: result });
+    } catch (error) {
+      setRecipeResult({ success: false, error: error.message });
+    }
+    setLoading({ ...loading, recipe: false });
+  };
+
   const testCreateStory = async () => {
     setLoading({ ...loading, story: true });
     try {
@@ -61,6 +83,26 @@ export default function Tests() {
       </div>
 
       <div className="space-y-6">
+        {/* Test Recipe Creation */}
+        <Card className="border-amber-100">
+          <CardHeader>
+            <CardTitle>Test Recipe Creation</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button
+              onClick={testCreateRecipe}
+              disabled={loading.recipe}
+              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white"
+            >
+              {loading.recipe ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : null}
+              Create Test Recipe
+            </Button>
+            <ResultDisplay result={recipeResult} />
+          </CardContent>
+        </Card>
+
         {/* Test Story Creation */}
         <Card className="border-amber-100">
           <CardHeader>
