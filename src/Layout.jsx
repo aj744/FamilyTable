@@ -11,7 +11,8 @@ import {
   User,
   Menu,
   X,
-  Utensils
+  Utensils,
+  TestTube
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,6 +54,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Meals", path: createPageUrl("Meals"), icon: Utensils },
     { name: "Search", path: createPageUrl("Search"), icon: Search },
     { name: "Unit Converter", path: createPageUrl("UnitConverter"), icon: Calculator },
+    { name: "Tests", path: createPageUrl("Tests"), icon: TestTube },
   ];
 
   return (
